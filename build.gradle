@@ -1,5 +1,5 @@
 buildscript {
-    ext{
+    ext {
         springBootVersion = '2.1.7.RELEASE'
     }
     repositories {
@@ -26,8 +26,20 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2' // (개발용 인메모리 DB, 교체 가능)
+
+    // 머스테치
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3' // 버전은 최신으로!
+
+    // 제거 또는 주석 처리
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
 }
 
 test {
