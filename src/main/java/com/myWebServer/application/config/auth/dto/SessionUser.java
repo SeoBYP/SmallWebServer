@@ -3,8 +3,10 @@ package com.myWebServer.application.config.auth.dto;
 import com.myWebServer.application.domain.user.User;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class SessionUser {
+public class SessionUser implements Serializable {
     // 세션에 저장할 사용자 정보 (직렬화 안전한 DTO)
 
     private String name;
