@@ -43,7 +43,12 @@ jobs:
       - name: Create deploy package
         run: |
           mkdir -p deploy/scripts
-          cp build/libs/SmallWebServer-1.0-SNAPSHOT.jar deploy/
+          
+          # 최신 JAR 파일 자동 탐색
+          LATEST_JAR=$(ls -t build/libs/*.jar | head -n 1)
+          echo "LATEST_JAR=$LATEST_JAR"
+
+          cp "$LATEST_JAR" deploy/
           cp appspec.yml deploy/
           cp scripts/*.sh deploy/scripts/
           cd deploy
