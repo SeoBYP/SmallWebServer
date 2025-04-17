@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main
-      -
+
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: smallwebserverbuild
+  CODEDEPLOY_APP_NAME: SmallWebServer-CodeDeploy             # 당신의 CodeDeploy 앱 이름
+  CODEDEPLOY_DEPLOYMENT_GROUP: SmallWebServer-CodeDeploy-group   # 배포 그룹 이름
+  CODEDEPLOY_S3_KEY: deploy/app.zip                   # zip 파일 경로
 
 jobs:
   deploy:
@@ -37,6 +40,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Upload JAR to S3
+      - name: Create deploy package
         run: |
-          aws s3 cp build/libs/SmallWebServer-1.0-SNAPSHOT.jar s3://${{ env.S3_BUCKET_NAME }}/deploy/SmallWebServer-1.0-SNAPSHOT.jar
+          mkdir -p deploy/scripts
+          cp build/libs/SmallWebServer-1.0-SNAPSHOT.jar deploy/
+          cp appspec.yml deploy/
+          cp scripts/*.sh deploy/scripts/
+          cd deploy
+          zip -r app.zip .
+
+      - name: Upload deploy package to S3
+        run: |
+          aws s3 cp deploy/app.zip s3://${{ env.S3_BUCKET_NAME }}/${{ env.CODEDEPLOY_S3_KEY }}
+
+      - name: Trigger CodeDeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name ${{ env.CODEDEPLOY_APP_NAME }} \
+            --deployment-group-name ${{ env.CODEDEPLOY_DEPLOYMENT_GROUP }} \
+            --s3-location bucket=${{ env.S3_BUCKET_NAME }},key=${{ env.CODEDEPLOY_S3_KEY }},bundleType=zip \
+            --region ${{ env.AWS_REGION }}

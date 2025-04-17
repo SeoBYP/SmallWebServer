@@ -33,9 +33,7 @@ select * from `small-web-server`.`user`;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="a10ede7c-376d-4e5f-8c30-64e253559132" object-ref="consoles/small-web-server" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a10ede7c-376d-4e5f-8c30-64e253559132" />
