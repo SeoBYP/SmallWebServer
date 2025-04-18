@@ -10,6 +10,8 @@ ls -al ${ABSDIR}/profile.sh
 source ${ABSDIR}/profile.sh
 
 IDLE_PORT=$(find_idle_port)
+# 아래로 수정
+chmod +x ${ABSDIR}/*.sh
 
 echo "> $IDLE_PORT 에서 구동중인 애플리케이션 pid 확인"
 IDLE_PID=$(lsof -ti tcp:${IDLE_PORT})

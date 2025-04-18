@@ -24,7 +24,9 @@ echo "> JAR Name: $JAR_NAME"
 
 echo "> $JAR_NAME 에 실행권한 추가"
 
-chmod +x scripts/*.sh
+# 아래로 수정
+chmod +x ${ABSDIR}/*.sh
+
 chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
