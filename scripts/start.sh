@@ -18,7 +18,12 @@ echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/"
 cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> 새 어플리케이션 배포"
-JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
+JAR_NAME=$(ls -tr $REPOSITORY/*.jar 2>/dev/null | tail -n 1)
+
+if [ -z "$JAR_NAME" ]; then
+  echo "> ERROR: JAR 파일이 없습니다. 빌드가 제대로 되었는지 확인하세요."
+  exit 1
+fi
 
 echo "> JAR Name: $JAR_NAME"
 
@@ -32,6 +37,11 @@ chmod +x $JAR_NAME
 echo "> $JAR_NAME 실행"
 
 IDLE_PROFILE=$(find_idle_profile)
+
+if [ -z "$IDLE_PROFILE" ]; then
+  echo "> ERROR: IDLE_PROFILE 값이 비어 있습니다. profile.sh 확인 필요."
+  exit 1
+fi
 
 echo "> 실행할 profile: $IDLE_PROFILE"
 
