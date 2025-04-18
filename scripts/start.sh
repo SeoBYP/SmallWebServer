@@ -19,14 +19,16 @@ echo "> JAR Name: $JAR_NAME"
 
 echo "> $JAR_NAME 에 실행권한 추가"
 
+chmod +x scripts/*.sh
 chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
 
 IDLE_PROFILE=$(find_idle_profile)
 
-echo "> $JAR_NAME 를 profile=$IDLE_PROFILE 로 실행합니다."
+echo "> 실행할 profile: $IDLE_PROFILE"
+
 nohup java -jar \
-    -Dspring.config.location=classpath:/application.properties,classpath:/application-$IDLE_PROFILE.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
-    -Dspring.profiles.active=$IDLE_PROFILE \
-    $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+  -Dspring.config.location=classpath:/application.properties,classpath:/application-${IDLE_PROFILE}.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
+  -Dspring.profiles.active=${IDLE_PROFILE} \
+  $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
