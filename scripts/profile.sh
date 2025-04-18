@@ -26,6 +26,7 @@ function find_idle_profile()
 
     echo "> [find_idle_profile] 대기중 profile: $IDLE_PROFILE"
     echo "${IDLE_PROFILE}"
+    return
 }
 
 
@@ -40,4 +41,5 @@ function find_idle_port()
     else
       echo "8082"
     fi
+    return
 }
