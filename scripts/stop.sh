@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
+echo "> 현재 스크립트 절대경로: $0"
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
+echo "> 현재 스크립트 디렉토리: $ABSDIR"
+echo "> profile.sh 경로: ${ABSDIR}/profile.sh"
+ls -al ${ABSDIR}/profile.sh
+
 source ${ABSDIR}/profile.sh
 
 IDLE_PORT=$(find_idle_port)
