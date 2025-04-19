@@ -2,11 +2,7 @@
 
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
-echo "> profile.sh 경로: ${ABSDIR}/profile.sh"
-ls -al ${ABSDIR}/profile.sh
-
 source ${ABSDIR}/profile.sh
-
 source ${ABSDIR}/switch.sh
 
 IDLE_PORT=$(find_idle_port)
@@ -14,7 +10,7 @@ IDLE_PORT=$(find_idle_port)
 echo "> Health Check Start!"
 echo "> IDLE_PORT: $IDLE_PORT"
 echo "> curl -s http://localhost:$IDLE_PORT/profile "
-sleep 50
+sleep 10
 
 for RETRY_COUNT in {1..10}
 do
@@ -25,7 +21,7 @@ do
   then # $up_count >= 1 ("real" 문자열이 있는지 검증)
       echo "> Health check 성공"
       switch_proxy
-      exit 0    # 👈 반드시 exit 0 추가!
+      break
   else
       echo "> Health check의 응답을 알 수 없거나 혹은 실행 상태가 아닙니다."
       echo "> Health check: ${RESPONSE}"
@@ -39,6 +35,5 @@ do
   fi
 
   echo "> Health check 연결 실패. 재시도..."
-  # health.sh
-  sleep 20 # 최소 20초로 늘려보세요
+  sleep 10
 done
