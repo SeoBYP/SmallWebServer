@@ -76,15 +76,6 @@ spring:
         dialect: org.hibernate.dialect.MariaDBDialect
 ```
 
----
-
-## 📸 예시 화면(추후 추가)
-- [ ] Google 로그인 성공 후 게시글 작성
-- [ ] RDS에 저장된 글 확인
-- [ ] Naver 로그인 콜백 처리
-
----
-
 ## 📚 개발 목표 & 회고
 
 - Spring Security + OAuth2 인증 흐름에 대한 이해
