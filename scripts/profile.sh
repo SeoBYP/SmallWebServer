@@ -7,6 +7,7 @@ function find_idle_profile()
     RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
     echo "> [find_idle_profile] 응답 코드: $RESPONSE_CODE"
 
+
     if [ "${RESPONSE_CODE}" -ge 400 ]; then
         CURRENT_PROFILE="real2"
     else
