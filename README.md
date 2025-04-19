@@ -7,8 +7,8 @@ Google & Naver 로그인, 게시글 작성 API, **GitHub Actions + CodeDeploy를
 
 ## 프로젝트 개요
 
-### ⏱️ 개발 기간
-**2025.03 ~ 2025.04 (야 1개월)**
+### ⏱ 개발 기간
+**2025.03 ~ 2025.04 (약 1개월)**
 
 ### 🛠️ 기술 스택
 
@@ -28,6 +28,12 @@ Google & Naver 로그인, 게시글 작성 API, **GitHub Actions + CodeDeploy를
 ### 🔐 OAuth2 로그인
 - **Google 로그인 연동** (Spring Security 기반)
 - **Naver 로그인 연동** (Custom OAuth2UserService 구현)
+- 외부 도메인에서도 리디렉션이 잘 작동하도록 설정:
+    - `application-oauth.properties`에 다음 추가:
+      ```properties
+      server.forward-headers-strategy=framework
+      ```
+    - Spring Boot가 `X-Forwarded-*` 헤더를 기반으로 base URL을 계산해 **EC2 퍼블릭 주소 자동 대응 가능**
 
 ### 📝 게시글 API
 - 로그인 사용자만 **글 등록 가능**
@@ -37,7 +43,10 @@ Google & Naver 로그인, 게시글 작성 API, **GitHub Actions + CodeDeploy를
 ### 🔄 자동 배포
 - GitHub에 Push하면 자동으로 JAR 빌드 → S3 업로드 → EC2 배포
 - AWS CodeDeploy가 `appspec.yml` + `deploy.sh` 기반으로 서버 자동 재실행
-- 호출없는 무중단 배포 구조에 대해 개정 완료
+- **무중단 배포 구현 완료**:
+    - `nginx` 리버스 프록시 + Health Check 기반 이중 포트 배포 구조
+    - 이전에는 `find_idle_profile` 로그 출력 오류와 `nginx` 설정 파일 충돌로 인해 502 오류 발생함
+    - `/etc/nginx/conf.d/springboot.conf`가 8080 고정이라 충돌 → `.bak` 처리 후 해결
 
 ### 🧪 테스트
 - JUnit 기반 단위 테스트 작성 (PostService 등)
@@ -67,24 +76,10 @@ spring:
         dialect: org.hibernate.dialect.MariaDBDialect
 ```
 
-### 호출없는 무중단 배포 (최종적 보건)
-
-- EC2 배포 기간 중, 로컬 Spring Boot 서비스가 실행 중이었지만, **502 Bad Gateway** 오류 발생
-- 복수 과정 중 다음을 확인:
-    - `curl http://127.0.0.1:8081` 은 정상 응답
-    - Nginx가 `/etc/nginx/conf.d/springboot.conf` 가상을 가지고 8080로 proxy proxy\uud574서 발생한 문제
-
-- 해결:
-  ```bash
-  sudo mv /etc/nginx/conf.d/springboot.conf /etc/nginx/conf.d/springboot.conf.bak
-  sudo nginx -t && sudo systemctl reload nginx
-  ```
-- 이후 curl 가 정상적으로 EC2 구도에서 도움만 받는 패스
-
 ---
 
-## 📸 예시 화면(추억 추가)
-- [] Google 로그인 성공 후 게시글 작성
+## 📸 예시 화면(추후 추가)
+- [ ] Google 로그인 성공 후 게시글 작성
 - [ ] RDS에 저장된 글 확인
 - [ ] Naver 로그인 콜백 처리
 
@@ -92,8 +87,9 @@ spring:
 
 ## 📚 개발 목표 & 회고
 
-- Spring Security + OAuth2 인증 흉내에 대한 이해
+- Spring Security + OAuth2 인증 흐름에 대한 이해
 - JPA 기반 Entity 설계 및 CRUD 구현
 - AWS 인프라 사용 경험 (배포 및 DB 연동)
-- GitHub Actions와 CodeDeploy를 활용한 CI/CD 구조
-- 테스트 코드 작성으로 안정성 확률
+- GitHub Actions와 CodeDeploy를 활용한 CI/CD 구축
+- 테스트 코드 작성으로 안정성 확보
+- **무중단 배포 구조의 실제 적용 및 Nginx 문제 해결 경험 축적**

@@ -26,20 +26,24 @@
     <connection id="a10ede7c-376d-4e5f-8c30-64e253559132">
       <console name="small-web-server" type="STANDARD" schema="mysql" session="Main"><![CDATA[USE `small-web-server`;
 
-select * from `small-web-server`.`user`;]]></console>
+
+select * from user;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="a10ede7c-376d-4e5f-8c30-64e253559132" object-ref="consoles/small-web-server" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a10ede7c-376d-4e5f-8c30-64e253559132" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="a10ede7c-376d-4e5f-8c30-64e253559132" dataset="small-web-server.SPRING_SESSION" active-filter-id="" />
+    <filter-actions connection-id="a10ede7c-376d-4e5f-8c30-64e253559132" dataset="small-web-server.posts" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
