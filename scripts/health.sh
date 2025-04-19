@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-echo "> 현재 스크립트 절대경로: $0"
 ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
-echo "> 현재 스크립트 디렉토리: $ABSDIR"
 echo "> profile.sh 경로: ${ABSDIR}/profile.sh"
 ls -al ${ABSDIR}/profile.sh
 
@@ -16,7 +14,7 @@ IDLE_PORT=$(find_idle_port)
 echo "> Health Check Start!"
 echo "> IDLE_PORT: $IDLE_PORT"
 echo "> curl -s http://localhost:$IDLE_PORT/profile "
-sleep 10
+sleep 50
 
 for RETRY_COUNT in {1..10}
 do
@@ -41,5 +39,6 @@ do
   fi
 
   echo "> Health check 연결 실패. 재시도..."
-  sleep 10
+  # health.sh
+  sleep 20 # 최소 20초로 늘려보세요
 done
