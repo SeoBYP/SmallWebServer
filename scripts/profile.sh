@@ -11,7 +11,7 @@ function find_idle_profile()
     if [ "${RESPONSE_CODE}" -ge 400 ]; then
         CURRENT_PROFILE="real2"
     else
-        CURRENT_PROFILE=$(curl -s http://localhost/profile | tr -d '\r')
+        CURRENT_PROFILE=$(curl -s http://localhost/profile | tr -d '\r' | tr -d '\n')
         echo "> [find_idle_profile] CURRENT_PROFILE 응답 내용: '$CURRENT_PROFILE'"
     fi
 
