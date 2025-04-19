@@ -30,7 +30,7 @@ function find_idle_port()
 {
     IDLE_PROFILE=$(find_idle_profile)
 
-    ehco "find_idle_port 함수 {$IDLE_PROFILE}"
+    echo "find_idle_port 함수 {$IDLE_PROFILE}"
 
     if [[ "$IDLE_PROFILE" == "real1" ]]
     then
