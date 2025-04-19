@@ -6,23 +6,24 @@ function find_idle_profile()
 {
     RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
 
-    if [ ${RESPONSE_CODE} -ge 400 ] # 400 보다 크면 (즉, 40x/50x 에러 모두 포함)
+    if [ ${RESPONSE_CODE} -ge 400 ]
     then
         CURRENT_PROFILE=real2
     else
         CURRENT_PROFILE=$(curl -s http://localhost/profile)
     fi
 
-    echo "Current Profile : ${CURRENT_PROFILE}"
+    >&2 echo "Current Profile : ${CURRENT_PROFILE}"
 
-    if [ ${CURRENT_PROFILE} == real1 ]
+    if [ "${CURRENT_PROFILE}" == "real1" ]
     then
-      IDLE_PROFILE=real2
+        IDLE_PROFILE=real2
     else
-      IDLE_PROFILE=real1
+        IDLE_PROFILE=real1
     fi
 
-    echo "Profile Name : ${IDLE_PROFILE}"
+    >&2 echo "Profile Name : ${IDLE_PROFILE}"
+    echo "${IDLE_PROFILE}"  # 마지막 줄은 반드시 결과값만!
 }
 
 
@@ -30,12 +31,11 @@ function find_idle_port()
 {
     IDLE_PROFILE=$(find_idle_profile)
 
-    echo "find_idle_port 함수 {$IDLE_PROFILE}"
-
+    >&2 echo ">>> find_idle_port 함수: $IDLE_PROFILE"
     if [[ "$IDLE_PROFILE" == "real1" ]]
     then
-      echo "8081"
+        echo "8081"
     else
-      echo "8082"
+        echo "8082"
     fi
 }
